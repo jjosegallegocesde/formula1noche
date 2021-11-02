@@ -28,7 +28,7 @@ public class Formula1 {
         VistaHome vistaHome = new VistaHome();
         vistaHome.setVisible(true);
         
-        ControladorHome controladorHome = new ControladorHome(escuderia,piloto,vistaHome);
+        ControladorHome controladorHome = new ControladorHome(vistaHome,escuderia,piloto);
         
     }
     
