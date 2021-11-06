@@ -13,6 +13,10 @@ import formula1.vistas.VistaSalida;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -47,7 +51,28 @@ public class ControladorSalida implements ActionListener{
         piloto=consultasPilotos.buscarPiloto(Integer.parseInt(vistaSalida.cajaIdPiloto.getText()));
         String fechaEntrada=piloto.getFechaIn();
         try{
+           Date entrada = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fechaEntrada); 
+           
+           Date salida = new Date();
+           SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+           String fechaSalida=formato.format(salida);
+           
+           long tiempoDiferencia=salida.getTime()-entrada.getTime();
+           TimeUnit unidadTiempo=TimeUnit.MINUTES;
+           long tiempoEscuderia=
+                   unidadTiempo.convert(tiempoDiferencia,TimeUnit.MILLISECONDS);
+           
+           piloto.setFechaOut(fechaSalida);
+           
+           if(consultasPilotos.actualizar(piloto)){
             
+                JOptionPane.showMessageDialog(null, "Exito en la salida, te demoraste: "+tiempoEscuderia);
+            
+            }else{
+            
+                JOptionPane.showMessageDialog(null, "Error en la salida");
+            }
+           
         }catch(ParseException error){
             System.out.println("uppss."+error);
         }
